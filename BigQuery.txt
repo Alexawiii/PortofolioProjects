@@ -20,3 +20,6 @@ and ta.total_cases is not null
 and ta.location like 'United States'
 group by ta.location, ta.date, ta.new_cases, ta.people_vaccinated, ta.total_deaths
 order by 10 desc
+
+viz on Tableau
+https://public.tableau.com/views/COVID19_Cases_Vacc_Death/Sheet1?:language=en-US&:display_count=n&:origin=viz_share_link
