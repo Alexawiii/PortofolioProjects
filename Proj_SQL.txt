@@ -1,0 +1,24 @@
+select location, population, sum(new_cases) as TotalCases, round(sum(new_cases)/population,4)*100 as CasesToPopPercent,
+sum(new_deaths) as TotalDeaths, round(sum(new_deaths)/nullif(sum(new_cases),0),4) *100 as DeathToCasesPercent
+from PortProj..coviddataorg
+where continent is not null
+group by location, population
+order by 1 desc;
+--
+-- Country, Population, Cases, Vacenated, Deaths
+select continent, location, population, sum(new_cases)as TotalCases, round(sum(new_cases)/population,4)*100 as CasesToPopPercent,
+max(people_vaccinated) as TotalVacc, round(max(people_vaccinated)/population,4)*100 as VaccToPopPercent,
+sum(new_deaths) as TotalDeaths, round(sum(new_deaths)/nullif(sum(new_cases),0),4) *100 as DeathToCasesPercent
+from PortProj..coviddataorg
+where continent is not null
+and total_cases is not null
+group by continent, location, population
+order by 6 desc;
+--
+--diversety by income!
+select  location,population, Max(total_cases)  as MaxCases, round(max(total_cases)/population,4)*100 as CasesPercent,  Max(total_deaths)as  MaxDeaths, round(max(total_deaths)/max(total_cases),4)*100 as DeathPercent
+from PortProj..coviddataorg
+where continent is null
+and location like '%income'
+group by location, population
+order by 5;

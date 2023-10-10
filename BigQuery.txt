@@ -1,0 +1,22 @@
+SELECT continent, location, population, 
+max(total_cases) TotalCases, round(max(total_cases) / population *100,3) CasesPercentOfPopulation,
+max(people_vaccinated) TotalVaccinated, round(max(people_vaccinated) / population *100, 3) VaccinatedPercentOfPopulation,
+max(total_deaths) TotalDeaths, round (max(total_deaths)  / max(total_cases)*100 , 3)DeathPercentOfCases
+FROM `imposing-gadget-630.DAProject.owid-covid` 
+where continent is not null
+and total_cases is not null
+group by continent, location,population
+order by 7 desc
+
+--
+SELECT ta.location, ta.date, 
+ta.new_cases, max(tb.total_cases) TotalCases, round(ta.new_cases / max(tb.total_cases)*100, 4) CasesPercent,
+ta.people_vaccinated, max(tb.people_vaccinated) TotalVacc, round(ta.people_vaccinated / max(tb.people_vaccinated)*100, 4) VaccPercent,
+ta.total_deaths, max(tb.total_deaths) TotalDeaths, round(ta.total_deaths / max(tb.total_deaths)*100, 4) DeathsPercent
+  FROM `imposing-gadget-630.DAProject.owid-covid` as ta , `imposing-gadget-630.DAProject.owid-covid` as tb
+where ta.location = tb.location
+and ta.continent is not null
+and ta.total_cases is not null
+and ta.location like 'United States'
+group by ta.location, ta.date, ta.new_cases, ta.people_vaccinated, ta.total_deaths
+order by 10 desc
